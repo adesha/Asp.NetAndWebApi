@@ -82,7 +82,7 @@ namespace AspWebApi.net.Controllers
             var response=await regionRepository.AddAsync(region);
 
             //convert back to dto
-            var regionDTO = new Models.DTO.Region
+            var regionDTO = new Models.DTO.Region()
             {
                 Id = region.Id,
                 Code = region.Code,
