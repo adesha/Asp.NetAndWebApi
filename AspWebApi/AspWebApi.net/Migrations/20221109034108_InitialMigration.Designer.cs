@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspWebApi.net.Migrations
 {
     [DbContext(typeof(WebApiDbContext))]
-    [Migration("20221104043514_Initial Migration")]
+    [Migration("20221109034108_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
