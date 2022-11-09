@@ -68,10 +68,10 @@ namespace AspWebApi.net.Controllers
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
             //validate the request
-            if (!(ValidateAddRegionRequestAsync(addRegionRequest)))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!(ValidateAddRegionRequestAsync(addRegionRequest)))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             //Request to domain model
             var region = new Models.Domain.Region()
@@ -134,10 +134,10 @@ namespace AspWebApi.net.Controllers
         public async Task<IActionResult> UpdateRegionAsync([FromRoute]Guid id,[FromBody]UpdateRegionRequest updateRegionRequest)
         {
             //validate the incoming request
-            if (!ValidateUpdateRegionRequestAsync(updateRegionRequest))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateUpdateRegionRequestAsync(updateRegionRequest))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             //convert dto domain model
             var region = new Models.Domain.Region()

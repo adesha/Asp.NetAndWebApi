@@ -46,10 +46,10 @@ namespace AspWebApi.net.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWalkDifficultyAsync([FromBody]AddWalkDifficultyRequest AddwalkDifficulty)
         {
-            if (!ValidateAddWalkDAsync(AddwalkDifficulty))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateAddWalkDAsync(AddwalkDifficulty))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
 
             var walkd = new Models.Domain.WalkDifficulty
@@ -70,10 +70,10 @@ namespace AspWebApi.net.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateWalkDifficultyAsync([FromRoute]Guid id, [FromBody]UpdateWalkDifficultyRequest UpdatewalkDifficulty)
         {
-            if (!ValidateUpdateWalkDAsync(UpdatewalkDifficulty))
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ValidateUpdateWalkDAsync(UpdatewalkDifficulty))
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
 
             var walkd = new Models.Domain.WalkDifficulty
