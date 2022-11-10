@@ -1,6 +1,7 @@
 ﻿using AspWebApi.net.Models.DTO;
 using AspWebApi.net.Repositories;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspWebApi.net.Controllers
@@ -22,6 +23,7 @@ namespace AspWebApi.net.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="reader")]
         public async Task<IActionResult> GetAllResultsAsync()
         {
             var walks = await walkRepository.GelAllAsync();
@@ -33,6 +35,7 @@ namespace AspWebApi.net.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetWalkAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetWalkAsync(Guid id)
         {
             var walk = await walkRepository.GetWalkAsync(id);
@@ -45,6 +48,7 @@ namespace AspWebApi.net.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddAsync([FromBody] Models.DTO.AddWalkRequest addWalkRequest)
         {
             //validate the request
@@ -75,6 +79,7 @@ namespace AspWebApi.net.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateWalkAsync([FromRoute]Guid id, [FromBody]UpdateWalkRequest updatewalk)
         {
             if (!(await ValidateUpdateWalkAsync(updatewalk)))
@@ -107,6 +112,7 @@ namespace AspWebApi.net.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteAsync([FromRoute]Guid id)
         {
             var walk = await walkRepository.DeleteAsync(id);
@@ -121,19 +127,19 @@ namespace AspWebApi.net.Controllers
         #region Private methods
         private async Task<bool> ValidateAddWalkAsync(Models.DTO.AddWalkRequest addWalkRequest)
         {
-            //if(addWalkRequest == null)
-            //{
-            //    ModelState.AddModelError(nameof(addWalkRequest), $"{nameof(addWalkRequest)}, cannot be empty.");
-            //    return false;
-            //}
-            //if (string.IsNullOrWhiteSpace(addWalkRequest.Name))
-            //{
-            //    ModelState.AddModelError(nameof(addWalkRequest.Name), $"{nameof(addWalkRequest.Name)}, cannot be null or whitespace.");
-            //}
-            //if (addWalkRequest.Length <=0)
-            //{
-            //    ModelState.AddModelError(nameof(addWalkRequest.Length), $"{nameof(addWalkRequest.Length)}, cannot be less than or equal to zero.");
-            //}
+            if (addWalkRequest == null)
+            {
+                ModelState.AddModelError(nameof(addWalkRequest), $"{nameof(addWalkRequest)}, cannot be empty.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(addWalkRequest.Name))
+            {
+                ModelState.AddModelError(nameof(addWalkRequest.Name), $"{nameof(addWalkRequest.Name)}, cannot be null or whitespace.");
+            }
+            if (addWalkRequest.Length <= 0)
+            {
+                ModelState.AddModelError(nameof(addWalkRequest.Length), $"{nameof(addWalkRequest.Length)}, cannot be less than or equal to zero.");
+            }
             var region = regionRepository.GetAsync(addWalkRequest.RegionId);
             if(region == null)
             {

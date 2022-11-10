@@ -2,6 +2,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using AspWebApi.net.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace AspWebApi.net.Controllers
 {
@@ -18,6 +20,7 @@ namespace AspWebApi.net.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllResultsAsync()
         {
             var walkd=await walkDifficultyRepository.GetAllAsync();
@@ -28,6 +31,7 @@ namespace AspWebApi.net.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetWalkDifficultyAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetWalkDifficultyAsync([FromRoute]Guid id)
         {
             var walkd = await walkDifficultyRepository.GetWalkDifficultyByIdAsync(id);
@@ -44,6 +48,7 @@ namespace AspWebApi.net.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddWalkDifficultyAsync([FromBody]AddWalkDifficultyRequest AddwalkDifficulty)
         {
             //if (!ValidateAddWalkDAsync(AddwalkDifficulty))
@@ -68,6 +73,7 @@ namespace AspWebApi.net.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateWalkDifficultyAsync([FromRoute]Guid id, [FromBody]UpdateWalkDifficultyRequest UpdatewalkDifficulty)
         {
             //if (!ValidateUpdateWalkDAsync(UpdatewalkDifficulty))
@@ -95,6 +101,7 @@ namespace AspWebApi.net.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteAsync([FromRoute]Guid id)
         {
             var walkd = await walkDifficultyRepository.DeleteAsync(id);

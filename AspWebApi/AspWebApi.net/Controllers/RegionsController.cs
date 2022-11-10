@@ -3,12 +3,14 @@ using AspWebApi.net.Models.Domain;
 using AspWebApi.net.Repositories;
 using AutoMapper;
 using AspWebApi.net.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspWebApi.net.Controllers
 {
     [ApiController]
     //[Route("Regions")]
     [Route("[controller]")]
+    
     public class RegionsController : Controller
     {
         private readonly IRegionRepository regionRepository;
@@ -21,6 +23,7 @@ namespace AspWebApi.net.Controllers
         }
         
         [HttpGet]
+        [Authorize(Roles ="reader")]
         public async Task<IActionResult> GetAllResults()
         {
             var regions=await regionRepository.GetAllAsync();
@@ -50,6 +53,7 @@ namespace AspWebApi.net.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetRegionAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var region = await regionRepository.GetAsync(id);
@@ -65,6 +69,7 @@ namespace AspWebApi.net.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
             //validate the request
@@ -104,6 +109,7 @@ namespace AspWebApi.net.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             //get region from database
@@ -131,6 +137,7 @@ namespace AspWebApi.net.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute]Guid id,[FromBody]UpdateRegionRequest updateRegionRequest)
         {
             //validate the incoming request
